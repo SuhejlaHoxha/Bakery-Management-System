@@ -1,0 +1,28 @@
+Implementimi i Flyway në Projekti Spring Boot
+
+Përshkrim
+Flyway është një mjet për menaxhimin e versioneve të bazave të të dhënave që na lejon të kontrollojmë ndryshimet në skemën e bazës së të dhënave përmes skriptave migrimi. 
+Pse Flyway?
+Zgjodhëm Flyway për shkak të thjeshtësisë së tij, mbështetjes së gjerë të bazave të të dhënave dhe integrimit të lehtë me Spring Boot.
+
+Konfigurimi
+Për të integruar Flyway në projektin tonë Spring Boot, ne ndoqëm hapat e mëposhtëm:
+
+1) Shtimi i Varësive: Fillimisht, shtojmë varësinë e Flyway në skedarin 'pom.xml' të projektit tonë.
+
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+ 
+2) Konfigurimi i Property-ve: Konfigurojmë propertitë e Flyway në skedarin application.properties të Spring Boot.
+spring.flyway.enabled=true
+spring.flyway.baseline-on-migrate=true
+spring.datasource.url=jdbc:mysql://localhost:3306/database_name
+spring.datasource.username=db_user
+spring.datasource.password=db_password
+
+3) Skriptat e Migrimit: Skriptat e migrimit vendosen në direktorinë src/main/resources/db/migration. Emërtimi i skriptave ndjek konvencionin V<VERSION>__<DESCRIPTION>.sql, ku <VERSION> është numri i versionit të migrimit dhe <DESCRIPTION> është një përshkrim i shkurtër i migrimit.
+
+Përdorimi:
+Pasi të kemi konfiguruar dhe shtuar skriptat e migrimit, thjesht ekzekutojmë aplikacionin tonë. Flyway do të kontrollojë bazën e të dhënave për të përcaktuar nëse ndonjë migrim është i nevojshëm dhe do të aplikojë çdo migrim të papërdorur në rendin e duhur.
