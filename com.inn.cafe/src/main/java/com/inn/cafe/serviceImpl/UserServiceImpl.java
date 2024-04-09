@@ -1,6 +1,6 @@
 package com.inn.cafe.serviceImpl;
 
-import com.inn.cafe.POJO.User;
+import com.inn.cafe.model.User;
 import com.inn.cafe.constents.CafeConstants;
 import com.inn.cafe.dao.UserDao;
 import com.inn.cafe.service.UserService;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
 
     private boolean validateSignUpMap(Map<String, String> requestMap){
-        if (requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
+        if (requestMap.containsKey("name") && requestMap.containsKey("contact_number")
                 && requestMap.containsKey("email") && requestMap.containsKey("password")){
             return true;
         }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     private User getUserFromMap(Map<String, String> requestMap){
         User user = new User();
         user.setName(requestMap.get("name"));
-        user.setContactNumber(requestMap.get("contactNumber"));
+        user.setContact_number(requestMap.get("contact_number"));
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
         user.setStatus("false");
