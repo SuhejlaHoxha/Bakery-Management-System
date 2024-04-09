@@ -22,7 +22,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/database_name <br>
 spring.datasource.username=db_user <br>
 spring.datasource.password=db_password <br>
 
-3) Skriptat e Migrimit: Skriptat e migrimit vendosen në direktorinë src/main/resources/db/migration. Emërtimi i skriptave ndjek konvencionin V<VERSION>__<DESCRIPTION>.sql, ku <VERSION> është numri i versionit të migrimit dhe <DESCRIPTION> është një përshkrim i shkurtër i migrimit. <br>
+3) Skriptat e Migrimit: Skriptat e migrimit vendosen në direktorinë src/main/resources/db/migration. Emërtimi i skriptave ndjek konvencionin V<**VERSION**>__<**DESCRIPTION**>.sql, ku <**VERSION**> është numri i versionit të migrimit dhe <**DESCRIPTION**> është një përshkrim i shkurtër i migrimit. <br>
 
 *Përdorimi:* <br>
 Pasi të kemi konfiguruar dhe shtuar skriptat e migrimit, thjesht ekzekutojmë aplikacionin tonë. Flyway do të kontrollojë bazën e të dhënave për të përcaktuar nëse ndonjë migrim është i nevojshëm dhe do të aplikojë çdo migrim të papërdorur në rendin e duhur.
