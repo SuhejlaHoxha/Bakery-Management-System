@@ -16,11 +16,11 @@ Për të integruar Flyway në projektin tonë Spring Boot, ne ndoqëm hapat e m�
 </dependency>
  
 2) Konfigurimi i Property-ve: Konfigurojmë propertitë e Flyway në skedarin application.properties të Spring Boot.
-spring.flyway.enabled=true
-spring.flyway.baseline-on-migrate=true
-spring.datasource.url=jdbc:mysql://localhost:3306/database_name
-spring.datasource.username=db_user
-spring.datasource.password=db_password
+spring.flyway.enabled=true <br>
+spring.flyway.baseline-on-migrate=true <br>
+spring.datasource.url=jdbc:mysql://localhost:3306/database_name <br>
+spring.datasource.username=db_user <br>
+spring.datasource.password=db_password <br>
 
 3) Skriptat e Migrimit: Skriptat e migrimit vendosen në direktorinë src/main/resources/db/migration. Emërtimi i skriptave ndjek konvencionin V<VERSION>__<DESCRIPTION>.sql, ku <VERSION> është numri i versionit të migrimit dhe <DESCRIPTION> është një përshkrim i shkurtër i migrimit.
 
