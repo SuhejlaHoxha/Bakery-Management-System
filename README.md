@@ -10,10 +10,10 @@ Për të integruar Flyway në projektin tonë Spring Boot, ne ndoqëm hapat e m�
 
 1) Shtimi i Varësive: Fillimisht, shtojmë varësinë e Flyway në skedarin 'pom.xml' të projektit tonë. <br>
 
-<dependency> <br>
-    <groupId>org.flywaydb</groupId> <br>
-    <artifactId>flyway-core</artifactId> <br>
-</dependency> <br>
+<dependency > <br>
+    <groupId >org.flywaydb</groupId > <br>
+    <artifactId >flyway-core</artifactId > <br>
+</dependency > <br>
  
 2) Konfigurimi i Property-ve: Konfigurojmë propertitë e Flyway në skedarin application.properties të Spring Boot. <br>
 spring.flyway.enabled=true <br>
