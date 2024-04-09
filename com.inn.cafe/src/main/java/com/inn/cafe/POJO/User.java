@@ -1,4 +1,4 @@
-package com.inn.cafe.model;
+package com.inn.cafe.POJO;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,8 +23,8 @@ public class User implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "contact_number")
-    private String contact_number;
+    @Column(name = "contactNumber")
+    private String contactNumber;
 
     @Column(name = "email")
     private String email;
