@@ -16,10 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import wrapper.UserWrapper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,40 +37,37 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JwtUtil jwtUtil;
 
-    @Autowired
-    JwtFilter jwtFilter;
-
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
         log.info("Inside signup {}", requestMap);
-        try {
-            if (validateSignUpMap(requestMap)) {
+        try{
+            if(validateSignUpMap(requestMap)){
                 User user = userDao.findByEmailId(requestMap.get("email"));
-                if (Objects.isNull(user)) {
+                if(Objects.isNull(user)){
                     userDao.save(getUserFromMap(requestMap));
                     return CafeUtils.getResponseEntity("Successfully Registered", HttpStatus.OK);
-                } else {
+                }else{
                     return CafeUtils.getResponseEntity("Email already exists.", HttpStatus.BAD_REQUEST);
                 }
-            } else {
+            }else{
                 return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
-    private boolean validateSignUpMap(Map<String, String> requestMap) {
+    private boolean validateSignUpMap(Map<String, String> requestMap){
         if (requestMap.containsKey("name") && requestMap.containsKey("contact_number")
-                && requestMap.containsKey("email") && requestMap.containsKey("password")) {
+                && requestMap.containsKey("email") && requestMap.containsKey("password")){
             return true;
         }
         return false;
     }
 
-    private User getUserFromMap(Map<String, String> requestMap) {
+    private User getUserFromMap(Map<String, String> requestMap){
         User user = new User();
         user.setName(requestMap.get("name"));
         user.setContact_number(requestMap.get("contact_number"));
@@ -89,37 +83,24 @@ public class UserServiceImpl implements UserService {
         log.info("Inside login");
         try {
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password"))
+                    new UsernamePasswordAuthenticationToken(requestMap.get("email"),requestMap.get("password"))
             );
-            if (auth.isAuthenticated()) {
-                if (customerUsersDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")) {
-                    return new ResponseEntity<String>("{\"token\":\"" +
+            if (auth.isAuthenticated()){
+                if(customerUsersDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
+                    return new ResponseEntity<String>("{\"token\":\""+
                             jwtUtil.generateToken(customerUsersDetailsService.getUserDetail().getEmail()
-                                    , customerUsersDetailsService.getUserDetail().getRole()) + "\"}",
-                            HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<String>("{\"message\":\"" + "Wait for admin approval." + "\"}",
+                            ,customerUsersDetailsService.getUserDetail().getRole())+"\"}",
+                    HttpStatus.OK);
+                }
+                else {
+                    return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval."+"\"}",
                             HttpStatus.BAD_REQUEST);
                 }
             }
-        } catch (Exception ex) {
-            log.error("{}", ex);
+        }catch (Exception ex){
+            log.error("{}",ex);
         }
-        return new ResponseEntity<String>("{\"message\":\"" + "Bad Credentials." + "\"}",
+        return new ResponseEntity<String>("{\"message\":\""+"Bad Credentials."+"\"}",
                 HttpStatus.BAD_REQUEST);
-    }
-
-    @Override
-    public ResponseEntity<List<UserWrapper>> getAllUser() {
-        try {
-            if (jwtFilter.isAdmin()) {
-                return new ResponseEntity<>(userDao.getAllUser(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
