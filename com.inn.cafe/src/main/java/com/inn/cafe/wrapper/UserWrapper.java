@@ -1,4 +1,4 @@
-package wrapper;
+package com.inn.cafe.wrapper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

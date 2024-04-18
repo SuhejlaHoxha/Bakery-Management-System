@@ -1,7 +1,7 @@
 package com.inn.cafe.service;
 
 import org.springframework.http.ResponseEntity;
-import wrapper.UserWrapper;
+import com.inn.cafe.wrapper.UserWrapper;
 
 import java.util.List;
 import java.util.Map;

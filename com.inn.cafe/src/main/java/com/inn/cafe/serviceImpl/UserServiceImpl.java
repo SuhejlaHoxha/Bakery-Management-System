@@ -1,5 +1,5 @@
 package com.inn.cafe.serviceImpl;
-import wrapper.UserWrapper;
+import com.inn.cafe.wrapper.UserWrapper;
 
 import com.inn.cafe.JWT.CustomerUsersDetailsService;
 import com.inn.cafe.JWT.JwtFilter;
