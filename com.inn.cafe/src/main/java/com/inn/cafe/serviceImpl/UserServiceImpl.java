@@ -1,4 +1,5 @@
 package com.inn.cafe.serviceImpl;
+import wrapper.UserWrapper;
 
 import com.inn.cafe.JWT.CustomerUsersDetailsService;
 import com.inn.cafe.JWT.JwtFilter;
@@ -17,8 +18,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+
+
 
 @Slf4j
 
@@ -36,6 +42,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     JwtUtil jwtUtil;
+
+
+
+    @Autowired
+    JwtFilter jwtFilter;
 
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
@@ -89,8 +100,8 @@ public class UserServiceImpl implements UserService {
                 if(customerUsersDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
                     return new ResponseEntity<String>("{\"token\":\""+
                             jwtUtil.generateToken(customerUsersDetailsService.getUserDetail().getEmail()
-                            ,customerUsersDetailsService.getUserDetail().getRole())+"\"}",
-                    HttpStatus.OK);
+                                    ,customerUsersDetailsService.getUserDetail().getRole())+"\"}",
+                            HttpStatus.OK);
                 }
                 else {
                     return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval."+"\"}",
@@ -102,5 +113,19 @@ public class UserServiceImpl implements UserService {
         }
         return new ResponseEntity<String>("{\"message\":\""+"Bad Credentials."+"\"}",
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUser() {
+        try {
+            if (jwtFilter.isAdmin()) {
+                return new ResponseEntity<>(userDao.getAllUser(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
