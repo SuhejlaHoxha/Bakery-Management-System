@@ -105,12 +105,10 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-			<version>8.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
-			<version>8.4.4</version>
 		</dependency>
 
 
@@ -128,6 +126,19 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/cms</url>
+					<user>root</user>
+
+					<!-- Optional: specify locations if your migration scripts are in a non-standard directory -->
+					<locations>
+						<location>filesystem:src/main/resources/db/migration</location>
+					</locations>
 				</configuration>
 			</plugin>
 		</plugins>
