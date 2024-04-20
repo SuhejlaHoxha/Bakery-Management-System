@@ -19,7 +19,7 @@ public class CustomerUsersDetailsService implements UserDetailsService {
     @Autowired
     UserDao userDao;
 
-    private com.inn.cafe.POJO.User userDetail;
+    private com.inn.cafe.model.User userDetail;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,7 +31,7 @@ public class CustomerUsersDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User Not Found.");
     }
 
-    public com.inn.cafe.POJO.User getUserDetail(){
+    public com.inn.cafe.model.User getUserDetail(){
         return userDetail;
     }
 
