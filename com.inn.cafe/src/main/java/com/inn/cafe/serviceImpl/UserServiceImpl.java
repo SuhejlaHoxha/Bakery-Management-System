@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
 
     private boolean validateSignUpMap(Map<String, String> requestMap){
-        if (requestMap.containsKey("name") && requestMap.containsKey("contact_number")
+        if (requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
                 && requestMap.containsKey("email") && requestMap.containsKey("password")){
             return true;
         }
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     private User getUserFromMap(Map<String, String> requestMap){
         User user = new User();
         user.setName(requestMap.get("name"));
-        user.setContact_number(requestMap.get("contact_number"));
+        user.setContactNumber(requestMap.get("contactNumber"));
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
         user.setStatus("false");
