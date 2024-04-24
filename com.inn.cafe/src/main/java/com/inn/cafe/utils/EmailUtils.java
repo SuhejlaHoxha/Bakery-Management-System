@@ -14,7 +14,7 @@ public class EmailUtils {
 
     public void sendSimpleMessage(String to,String subject, String text, List<String> list){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("kicajylljeta@gmail.com");
+        message.setFrom("xltaurin@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
