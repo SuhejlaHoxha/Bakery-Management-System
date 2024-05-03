@@ -8,3 +8,18 @@ CREATE TABLE if not exists user
     status VARCHAR(255),
     role VARCHAR(255)
 );
+
+ CREATE TABLE if not exists `category` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `name` varchar(255) DEFAULT NULL,
+);
+
+CREATE TABLE if not exists `product` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `price` int DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `category_fk` int NOT NULL,
+  FOREIGN KEY (`category_fk`) REFERENCES `category` (`id`)
+);
