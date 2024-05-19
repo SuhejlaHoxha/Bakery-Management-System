@@ -2,7 +2,7 @@ import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoryService } from 'src/app/services/category.service';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { SnackbarService } from 'src/app/services/snack-bar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 
 @Component({
@@ -25,7 +25,7 @@ export class CategoryComponent implements OnInit{
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     public dialogRef: MatDialogRef<CategoryComponent>,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
