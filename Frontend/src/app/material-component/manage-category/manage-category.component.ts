@@ -33,21 +33,25 @@ export class ManageCategoryComponent implements OnInit {
       this.tableData();
     }
 
-   tableData(){
-    this.categoryService.getCategories().subscribe((response:any)=>{
+   tableData() {
+  this.categoryService.getCategories().subscribe(
+    (response: any) => {
       this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response);
-    },(error:any)=>{
+    },
+    (error: any) => {
       this.ngxService.stop();
-      console.log(error.error?.message);
-      if (error.error?.message) {
-        this.responseMessage = error.error?.message;
+      console.log('Error:', error); // Log the complete error object for debugging
+      if (error && error.error && error.error.message) {
+        this.responseMessage = error.error.message;
       } else {
         this.responseMessage = GlobalConstants.genericError;
       }
       this.snackBarService.openSnackBar(this.responseMessage, GlobalConstants.error);
-    })
-  }
+    }
+  );
+}
+
 
   applyFilter(event:Event){
     const filterValue = (event.target as HTMLInputElement).value;
