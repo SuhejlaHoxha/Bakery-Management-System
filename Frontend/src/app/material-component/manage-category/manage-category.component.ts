@@ -11,49 +11,49 @@ import { CategoryComponent } from '../dialog/category/category.component';
 @Component({
   selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
-  styleUrls: ['./manage-category.component.scss']
-}) 
+  styleUrls: ['./manage-category.component.scss'],
+})
 export class ManageCategoryComponent implements OnInit {
-
   displayedColumns: string[] = ['name', 'edit'];
-  dataSource:any;
-  responseMessage:any;
+  dataSource: any;
+  responseMessage: any;
 
+  constructor(
+    private categoryService: CategoryService,
+    private ngxService: NgxUiLoaderService,
+    private dialog: MatDialog,
+    private snackBarService: SnackbarService,
+    private router: Router
+  ) {}
 
-    constructor(
-      private categoryService: CategoryService,
-      private ngxService: NgxUiLoaderService,
-      private dialog: MatDialog,
-      private snackBarService: SnackbarService,
-      private router: Router
-    ) {}
+  ngOnInit(): void {
+    this.ngxService.start();
+    this.tableData();
+  }
 
-    ngOnInit(): void {
-      this.ngxService.start();
-      this.tableData();
-    }
-
-   tableData() {
-  this.categoryService.getCategories().subscribe(
-    (response: any) => {
-      this.ngxService.stop();
-      this.dataSource = new MatTableDataSource(response);
-    },
-    (error: any) => {
-      this.ngxService.stop();
-      console.log('Error:', error); // Log the complete error object for debugging
-      if (error && error.error && error.error.message) {
-        this.responseMessage = error.error.message;
-      } else {
-        this.responseMessage = GlobalConstants.genericError;
+  tableData() {
+    this.categoryService.getCategories().subscribe(
+      (response: any) => {
+        this.ngxService.stop();
+        this.dataSource = new MatTableDataSource(response);
+      },
+      (error: any) => {
+        this.ngxService.stop();
+        console.log('Error:', error); // Log the complete error object for debugging
+        if (error && error.error && error.error.message) {
+          this.responseMessage = error.error.message;
+        } else {
+          this.responseMessage = GlobalConstants.genericError;
+        }
+        this.snackBarService.openSnackBar(
+          this.responseMessage,
+          GlobalConstants.error
+        );
       }
-      this.snackBarService.openSnackBar(this.responseMessage, GlobalConstants.error);
-    }
-  );
-}
+    );
+  }
 
-
-  applyFilter(event:Event){
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -61,31 +61,31 @@ export class ManageCategoryComponent implements OnInit {
   handleAddAction() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      action: "Add"
+      action: 'Add',
     };
-    dialogConfig.width = "850px"
+    dialogConfig.width = '850px';
     const dialogRef = this.dialog.open(CategoryComponent, dialogConfig);
-    this.router.events.subscribe(()=>{
+    this.router.events.subscribe(() => {
       dialogRef.close();
     });
-    const sub = dialogRef.componentInstance.onAddCategory.subscribe((response)=>{
+    dialogRef.componentInstance.onAddCategory.subscribe(() => {
       this.tableData();
-    })
+    });
   }
 
-  handleEditAction(values:any) {
+  handleEditAction(values: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      action: "Edit",
-      data: values
+      action: 'Edit',
+      data: values,
     };
-    dialogConfig.width = "850px"
+    dialogConfig.width = '850px';
     const dialogRef = this.dialog.open(CategoryComponent, dialogConfig);
-    this.router.events.subscribe(()=>{
+    this.router.events.subscribe(() => {
       dialogRef.close();
     });
-    const sub = dialogRef.componentInstance.onEditCategory.subscribe((response)=>{
+    dialogRef.componentInstance.onEditCategory.subscribe(() => {
       this.tableData();
-    })
+    });
   }
 }
