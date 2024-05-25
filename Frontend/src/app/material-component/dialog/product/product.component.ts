@@ -90,39 +90,6 @@ export class ProductComponent implements OnInit {
     this.productService.add(data).subscribe(
       (response: any) => {
         this.dialogRef.close();
-        this.onEditProduct.emit();
-        this.responseMessage = response.message;
-        this.snackBarService.openSnackBar(this.responseMessage, 'success');
-      },
-      (error) => {
-        this.dialogRef.close();
-        console.log(error);
-        if (error.error?.message) {
-          this.responseMessage = error.error?.message;
-        } else {
-          this.responseMessage = GlobalConstants.genericError;
-        }
-        this.snackBarService.openSnackBar(
-          this.responseMessage,
-          GlobalConstants.error
-        );
-      }
-    );
-  }
-
-  edit() {
-    var formData = this.productForm.value;
-    var data = {
-      id: this.dialogData.data.id,
-      name: formData.name,
-      categoryId: formData.categoryId,
-      price: formData.price,
-      description: formData.description,
-    };
-
-    this.categoryService.update(data).subscribe(
-      (response: any) => {
-        this.dialogRef.close();
         this.onAddProduct.emit();
         this.responseMessage = response.message;
         this.snackBarService.openSnackBar(this.responseMessage, 'success');
@@ -142,4 +109,36 @@ export class ProductComponent implements OnInit {
       }
     );
   }
-}
+  edit() {
+    var formData = this.productForm.value;
+    var data = {
+      id: this.dialogData.data.id,
+      name: formData.name,
+      categoryId: formData.categoryId,
+      price: formData.price,
+      description: formData.description,
+    };
+  
+    this.productService.update(data).subscribe(
+      (response: any) => {
+        this.dialogRef.close();
+        this.onEditProduct.emit();
+        this.responseMessage = response.message;
+        this.snackBarService.openSnackBar(this.responseMessage, 'success');
+      },
+      (error) => {
+        this.dialogRef.close();
+        console.log(error);
+        if (error.error?.message) {
+          this.responseMessage = error.error?.message;
+        } else {
+          this.responseMessage = GlobalConstants.genericError;
+        }
+        this.snackBarService.openSnackBar(
+          this.responseMessage,
+          GlobalConstants.error
+        );
+      }
+    );
+  }
+}  
