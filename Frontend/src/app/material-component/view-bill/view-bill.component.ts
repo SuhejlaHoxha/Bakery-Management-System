@@ -56,7 +56,7 @@ export class ViewBillComponent implements OnInit {
   handleViewAction(values:any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      ata:values
+      data:values
     };
     dialogConfig.width = "100%"
     const dialogRef = this.dialog.open(ViewBillProductsComponent, dialogConfig);
