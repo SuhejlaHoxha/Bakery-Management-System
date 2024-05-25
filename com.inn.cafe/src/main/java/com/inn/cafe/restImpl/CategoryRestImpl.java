@@ -43,8 +43,8 @@ public class CategoryRestImpl implements CategoryRest {
     public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
         try {
             return categoryService.updateCategory(requestMap);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }

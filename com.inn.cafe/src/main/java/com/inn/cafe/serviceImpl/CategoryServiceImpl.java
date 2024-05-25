@@ -82,12 +82,13 @@ public class CategoryServiceImpl implements CategoryService {
                     Optional<Category> optional = categoryDao.findById(Integer.parseInt(requestMap.get("id")));
                     if (optional.isPresent()) {
                         categoryDao.save(getCategoryFromMap(requestMap, true));
-                        return CafeUtils.getResponseEntity("Category Updated Successfully", HttpStatus.OK);
+                        return CafeUtils.getResponseEntity("Category updated successfully", HttpStatus.OK);
                     } else {
-                        return CafeUtils.getResponseEntity("Category ID does not exist", HttpStatus.BAD_REQUEST);
+                        return CafeUtils.getResponseEntity("Category id does not exist", HttpStatus.BAD_REQUEST);
                     }
+                } else {
+                    return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
                 }
-                return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
             } else {
                 return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
             }
