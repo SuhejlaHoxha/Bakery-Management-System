@@ -109,7 +109,6 @@ export class ProductComponent implements OnInit {
       }
     );
   }
-
   edit() {
     var formData = this.productForm.value;
     var data = {
@@ -119,11 +118,11 @@ export class ProductComponent implements OnInit {
       price: formData.price,
       description: formData.description,
     };
-
-    this.categoryService.update(data).subscribe(
+  
+    this.productService.update(data).subscribe(
       (response: any) => {
         this.dialogRef.close();
-        this.onAddProduct.emit();
+        this.onEditProduct.emit();
         this.responseMessage = response.message;
         this.snackBarService.openSnackBar(this.responseMessage, 'success');
       },
@@ -142,4 +141,4 @@ export class ProductComponent implements OnInit {
       }
     );
   }
-}
+}  
