@@ -40,6 +40,12 @@ const MENUITEMS = [
     type: 'link', 
     icon: 'backup_table', 
     role: '' },
+  { state: 
+    'user', 
+    name: 'Manage User', 
+    type: 'link', 
+    icon: 'people', 
+    role: 'admin' }
 ];
 
 @Injectable()
