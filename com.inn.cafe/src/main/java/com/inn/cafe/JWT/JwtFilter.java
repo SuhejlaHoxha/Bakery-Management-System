@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        if (httpServletRequest.getServletPath().matches("/user/login|/user/forgoPassword|/user/signup")) {
+        if (httpServletRequest.getServletPath().matches("/user/login|/user/forgoPassword|/user/signup|/api/v1/auth/|/v2/api-docs|/v3/api-docs|/v3/api-docs/|/swagger-resources|/swagger-resources/|/configuration/ui|/configuration/security|/swagger-ui/|/webjars/|/swagger-ui.html"))  {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } else {
             String authorizationHeader = httpServletRequest.getHeader("Authorization");
