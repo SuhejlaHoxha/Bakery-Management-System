@@ -87,31 +87,34 @@ Use Postman to test the RESTful API endpoints. You can import the Postman collec
 
 ---------------
 
-**Implementimi i Flyway në Projektin "Bakery Management System"**
+**Implementing Flyway in the "Bakery Management System" Project**
 
-*Përshkrim* <br>
-Flyway është një mjet për menaxhimin e versioneve të bazave të të dhënave që na lejon të kontrollojmë ndryshimet në skemën e bazës së të dhënave përmes skriptave migrimi. <br><br>
-*Pse Flyway?* <br>
-Zgjodhëm Flyway për shkak të thjeshtësisë së tij, mbështetjes së gjerë të bazave të të dhënave dhe integrimit të lehtë me Spring Boot. <br>
+*Description* 
+Flyway is a database version control tool that allows us to manage changes to the database schema through migration scripts. 
+*Why Flyway?* 
+We chose Flyway because of its simplicity, wide database support, and easy integration with Spring Boot. 
 
-*Konfigurimi* <br>
-Për të integruar Flyway në projektin tonë Spring Boot, ne ndoqëm hapat e mëposhtëm: <br>
+*Configuration* 
+To integrate Flyway into our Spring Boot project, we followed these steps: 
 
-1) Shtimi i Varësive: Fillimisht, shtojmë varësinë e Flyway në skedarin 'pom.xml' të projektit tonë. <br>
+1) Adding Dependencies: First, we add the Flyway dependency to our project's pom.xml file. 
+```
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+```
 
-<**dependency**> <br>
-    <**groupId**>org.flywaydb</**groupId**> <br>
-    <**artifactId**>flyway-core</**artifactId**> <br>
-</**dependency**> <br>
- 
-2) Konfigurimi i Property-ve: Konfigurojmë propertitë e Flyway në skedarin application.properties të Spring Boot. <br>
-spring.flyway.enabled=true <br>
-spring.flyway.baseline-on-migrate=true <br>
-spring.datasource.url=jdbc:mysql://localhost:3306/database_name <br>
-spring.datasource.username=db_user <br>
-spring.datasource.password=db_password <br>
+2) Configuring Properties: We configure the Flyway properties in the Spring Boot application.properties file. 
+```
+spring.flyway.enabled=true 
+spring.flyway.baseline-on-migrate=true 
+spring.datasource.url=jdbc:mysql://localhost:3306/database_name
+spring.datasource.username=db_user 
+spring.datasource.password=db_password 
+```
 
-3) Skriptat e Migrimit: Skriptat e migrimit vendosen në direktorinë src/main/resources/db/migration. Emërtimi i skriptave ndjek konvencionin V<**VERSION**>__<**DESCRIPTION**>.sql, ku <**VERSION**> është numri i versionit të migrimit dhe <**DESCRIPTION**> është një përshkrim i shkurtër i migrimit. <br>
+3) *Migration Scripts:* Migration scripts are placed in the src/main/resources/db/migration directory. The naming convention for the scripts is V<VERSION>__<DESCRIPTION>.sql, where <VERSION> is the migration version number and <DESCRIPTION> is a brief description of the migration. 
 
-*Përdorimi:* <br>
-Pasi të kemi konfiguruar dhe shtuar skriptat e migrimit, thjesht ekzekutojmë aplikacionin tonë. Flyway do të kontrollojë bazën e të dhënave për të përcaktuar nëse ndonjë migrim është i nevojshëm dhe do të aplikojë çdo migrim të papërdorur në rendin e duhur.
+*Usage:* 
+Once we have configured and added the migration scripts, we simply run our application. Flyway will check the database to determine if any migrations are needed and will apply any pending migrations in the correct order.
