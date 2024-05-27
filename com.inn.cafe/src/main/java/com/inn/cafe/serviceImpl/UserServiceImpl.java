@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -158,24 +159,21 @@ public class UserServiceImpl implements UserService {
             }
 
             // Authenticate the user using Spring Security Authentication Manager
-            try {
-                Authentication auth = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(email, rawPassword)
-                );
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, rawPassword)
+            );
 
-                if (auth.isAuthenticated()) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                    String jwtToken = jwtUtil.generateToken(String.valueOf(userDetails), user.getRole());
+            SecurityContextHolder.getContext().setAuthentication(auth);
 
-                    log.info("User authenticated successfully: {}", email);
-                    return new ResponseEntity<>("{\"token\":\"" + jwtToken + "\"}", HttpStatus.OK);
-                } else {
-                    log.warn("Authentication failed for user: {}", email);
-                    return new ResponseEntity<>("{\"message\":\"Bad credentials.\"}", HttpStatus.UNAUTHORIZED);
-                }
-            } catch (BadCredentialsException ex) {
-                log.error("Invalid credentials for user: {}", email, ex);
-                return new ResponseEntity<>("{\"message\":\"Invalid credentials.\"}", HttpStatus.UNAUTHORIZED);
+            if (auth.isAuthenticated()) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                String jwtToken = jwtUtil.generateToken(String.valueOf(userDetails), user.getRole());
+
+                log.info("User authenticated successfully: {}", email);
+                return new ResponseEntity<>("{\"token\":\"" + jwtToken + "\"}", HttpStatus.OK);
+            } else {
+                log.warn("Authentication failed for user: {}", email);
+                return new ResponseEntity<>("{\"message\":\"Bad credentials.\"}", HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception ex) {
             log.error("Exception during login", ex);
