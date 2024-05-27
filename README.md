@@ -1,3 +1,41 @@
+# Cafe Management System
+This web application is a comprehensive Cafe Management System that handles categories, products, and orders. It supports different user roles like Admin and User, each with specific authorities and tasks. This project is developed using Spring Boot, Angular, and several other technologies to ensure robust performance and secure authentication.
+
+## Features
+- Role Management: Different user roles (Admin and User) with specific authorities.
+- Authentication and Authorization: Implemented using Spring Security and JWT tokens.
+- Category, Product, and Order Management: Create, read, update, and delete (CRUD) operations for categories, products, and orders.
+- RESTful API: For seamless communication between the client and server.
+- Exception Handling: Centralized exception handling to manage errors efficiently.
+- Transactions Management: Ensures data consistency and integrity.
+- Front-End Integration: User interface created using Angular.
+
+# Technologies Used
+- Back-End:
+    - Spring Boot
+    - Spring Security (JWT)
+    - Hibernate (ORM)
+    - MySQL (Database)
+    - JDBC
+- Front-End:
+    - Angular
+- Testing:
+    - Postman (API testing)
+- Programming Paradigm:
+    - Object-Oriented Programming (OOP)
+
+# Prerequisites
+Before you begin, ensure you have the following installed:
+- Java Development Kit (JDK) 11 or higher
+- Node.js and npm
+- MySQL Server
+- Maven
+
+
+
+
+
+
 **Implementimi i Flyway në Projektin "Cafe Management System"**
 
 *Përshkrim* <br>
