@@ -1,7 +1,7 @@
 package com.inn.cafe.controller;
 
 import com.inn.cafe.model.User;
-import com.inn.cafe.repository.UserRepository;
+import com.inn.cafe.dao.UserDao;
 import com.inn.cafe.wrapper.UserWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
     @Operation(summary = "Create a new user", description = "Creates a new user and saves it in the database")
     @ApiResponses(value = {
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<User> createUser(
             @RequestBody(description = "Details of the new user", required = true) User user) {
-        User savedUser = userRepository.save(user);
+        User savedUser = userDao.save(user);
         return ResponseEntity.ok(savedUser);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping("/findByEmail")
     public ResponseEntity<User> findByEmail(
             @Parameter(description = "Email of the user", required = true) @RequestParam String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userDao.findByEmail(email);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -60,7 +60,7 @@ public class UserController {
     })
     @GetMapping("/all")
     public ResponseEntity<List<UserWrapper>> getAllUsers() {
-        List<UserWrapper> users = userRepository.getAllUser();
+        List<UserWrapper> users = userDao.getAllUser();
         return ResponseEntity.ok(users);
     }
 
@@ -74,7 +74,7 @@ public class UserController {
     public ResponseEntity<Void> updateStatus(
             @Parameter(description = "ID of the user", required = true) @RequestParam Integer id,
             @Parameter(description = "New status", required = true) @RequestParam String status) {
-        userRepository.updateStatus(id, status);
+        userDao.updateStatus(status, id);
         return ResponseEntity.ok().build();
     }
 
@@ -86,7 +86,7 @@ public class UserController {
     })
     @GetMapping("/admins")
     public ResponseEntity<List<String>> getAllAdmins() {
-        List<String> admins = userRepository.getAllAdmin();
+        List<String> admins = userDao.getAllAdmin();
         return ResponseEntity.ok(admins);
     }
 }
