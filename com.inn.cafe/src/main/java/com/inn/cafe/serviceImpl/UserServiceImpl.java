@@ -170,38 +170,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
-        try{
-            User userObj = userDao.findByEmail(jwtFilter.getCurrentUser());
-            if(!userObj.equals(null)){
-                if(userObj.getPassword().equals(requestMap.get("oldPassword"))){
-                    userObj.setPassword(requestMap.get("newPassword"));
-                    userDao.save(userObj);
-                    return CafeUtils.getResponseEntity("Password Updated Successfully", HttpStatus.OK);
+        try {
+            String currentUserEmail = jwtFilter.getCurrentUser();
+            Optional<User> optionalUser = userDao.findByEmail(currentUserEmail);
+            if (optionalUser.isPresent()) {
+                User userObj = optionalUser.get();
+                if (userObj.getEmail().equals(currentUserEmail)) { // Access email from the user object
+                    if (userObj.getPassword().equals(requestMap.get("oldPassword"))) {
+                        userObj.setPassword(requestMap.get("newPassword"));
+                        userDao.save(userObj);
+                        return CafeUtils.getResponseEntity("Password Updated Successfully", HttpStatus.OK);
+                    }
+                    return CafeUtils.getResponseEntity("Incorrect Old Password", HttpStatus.BAD_REQUEST);
                 }
-                return CafeUtils.getResponseEntity("Incorrect Old Password", HttpStatus.BAD_REQUEST);
             }
             return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
+            return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
     @Override
     public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
-        try{
-            User user = userDao.findByEmail(requestMap.get("email"));
-            if(!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail()))
-                emailUtils.forgotMail(user.getEmail(), "Credentials by Cafe Management System", user.getPassword());
-            return CafeUtils.getResponseEntity("Check your email for Credentials", HttpStatus.OK);
-        }catch (Exception ex){
+        try {
+            String userEmail = requestMap.get("email");
+            Optional<User> optionalUser = userDao.findByEmail(userEmail);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                if (user != null && !Strings.isNullOrEmpty(user.getEmail())) {
+                    emailUtils.forgotMail(user.getEmail(), "Credentials by Cafe Management System", user.getPassword());
+                    return CafeUtils.getResponseEntity("Check your email for Credentials", HttpStatus.OK);
+                }
+            }
+            return CafeUtils.getResponseEntity("User not found or email is invalid", HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
             ex.printStackTrace();
+            return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
 }
-// =======
-// }
-// >>>>>>> develop
+

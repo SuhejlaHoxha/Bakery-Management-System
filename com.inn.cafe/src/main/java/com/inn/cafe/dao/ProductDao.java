@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductDao extends JpaRepository<Product, Integer> {
@@ -26,5 +27,5 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
     List<ProductWrapper> getProductByCategory(@Param("id") Integer id);
 
     @Query("SELECT new com.inn.cafe.wrapper.ProductWrapper(p.id, p.name, p.description, p.price, p.status, p.category.id, p.category.name) FROM Product p WHERE p.id = :id")
-    ProductWrapper getProductById(@Param("id") Integer id);
+    Optional<ProductWrapper> getProductById(@Param("id") Integer id);
 }

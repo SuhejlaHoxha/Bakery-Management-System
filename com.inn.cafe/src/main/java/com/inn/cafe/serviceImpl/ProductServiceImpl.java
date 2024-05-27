@@ -160,7 +160,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<ProductWrapper> getProductById(Integer id) {
         try {
-            return new ResponseEntity<>(productDao.getProductById(id), HttpStatus.OK);
+            Optional<ProductWrapper> optional = productDao.getProductById(id);
+            if (optional.isPresent()) {
+                return new ResponseEntity<>(optional.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ProductWrapper(), HttpStatus.NOT_FOUND);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
